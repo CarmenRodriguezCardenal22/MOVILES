@@ -1,9 +1,8 @@
-package com.example.act3;
+package com.example.act4;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -25,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
-    public void Google(View view){
-        Intent ejemplo=new Intent(Intent.ACTION_VIEW);
-        ejemplo.setData(Uri.parse("http://www.google.es"));
+    public void Llama(View view){
+        Intent ejemplo=new Intent(Intent.ACTION_DIAL);
+        ejemplo.setData(Uri.parse("tel:NUMERO"));
         startActivity(ejemplo);
     }
 }
