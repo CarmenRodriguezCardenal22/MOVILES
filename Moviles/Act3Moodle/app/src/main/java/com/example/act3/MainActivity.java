@@ -1,4 +1,4 @@
-package com.example.actividad3moodle;
+package com.example.act3;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
     }
     @Override
     protected void onDestroy() {

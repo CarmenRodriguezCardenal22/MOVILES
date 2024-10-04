@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Actividad3Moodle"
+rootProject.name = "Act3"
 include(":app")
  

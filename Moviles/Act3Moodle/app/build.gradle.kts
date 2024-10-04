@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.actividad3moodle"
+    namespace = "com.example.act3"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.actividad3moodle"
+        applicationId = "com.example.act3"
         minSdk = 22
         targetSdk = 34
         versionCode = 1

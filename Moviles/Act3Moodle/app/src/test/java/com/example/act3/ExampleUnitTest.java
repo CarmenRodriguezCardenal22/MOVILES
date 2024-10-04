@@ -1,4 +1,4 @@
-package com.example.actividad3moodle;
+package com.example.act3;
 
 import org.junit.Test;
 
