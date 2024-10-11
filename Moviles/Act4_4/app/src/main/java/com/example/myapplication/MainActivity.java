@@ -1,8 +1,6 @@
-package com.example.act4_1;
+package com.example.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,21 +20,5 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
-    public void figura1(View view){
-        Intent ejemplo=new Intent(this, Figura1.class);
-        startActivity(ejemplo);
-    }
-    public void figura2(View view){
-        Intent ejemplo=new Intent(this, Figura2.class);
-        startActivity(ejemplo);
-    }
-    public void figura3(View view){
-        Intent ejemplo=new Intent(this, Figura3.class);
-        startActivity(ejemplo);
-    }
-    public void figura4(View view){
-        Intent ejemplo=new Intent(this, Figura4.class);
-        startActivity(ejemplo);
     }
 }
