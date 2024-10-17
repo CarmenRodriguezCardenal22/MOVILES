@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/texto"
+    android:id="@+id/texto3"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:text="Texto construido desde el XML Tamaño 20dp, Bold y color Red"
+    android:text="Texto construido desde el XML"
     android:textColor="Red"
     android:textSize="20dp"
-    android:textStyle="bold"/>
+    android:textStyle="bold">
+</TextView>
