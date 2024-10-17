@@ -17,6 +17,6 @@ public class MainTexto3 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_texto3);
         TextView miTexto=(TextView) findViewById(R.id.texto3);
-        miTexto.append("\n Texto añadido conAppend desde Java");
+        miTexto.append("Texto añadido con Append desde Java");
     }
 }

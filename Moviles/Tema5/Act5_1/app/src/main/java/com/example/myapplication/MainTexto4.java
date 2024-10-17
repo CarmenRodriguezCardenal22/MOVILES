@@ -1,6 +1,10 @@
 package com.example.myapplication;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +17,14 @@ public class MainTexto4 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_texto4);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        LinearLayout layout=findViewById(R.id.texto4);
+        TextView miTexto=new TextView(this);
+        miTexto.setText("TEXTO ESCRITO FUENTE UMBRELLA");
+        miTexto.setTextColor(Color.RED);
+        miTexto.setTextSize(20);
+        Typeface miFuente=Typeface.createFromAsset(getAssets(),"fonts/Umbrella.ttf");
+        miTexto.setTypeface(miFuente);
+        layout.addView(miTexto);
     }
 }

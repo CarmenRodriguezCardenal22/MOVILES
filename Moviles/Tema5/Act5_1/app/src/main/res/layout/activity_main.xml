@@ -11,25 +11,25 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainTexto1"
+        android:text="Texto 1"
         android:onClick="Texto1"
         android:gravity="center"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainTexto2"
+        android:text="Texto 2"
         android:onClick="Texto2"
         android:gravity="center"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainTexto3"
+        android:text="Texto 3"
         android:onClick="Texto3"
         android:gravity="center"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainTexto4"
+        android:text="Texto 4"
         android:onClick="Texto4"
         android:gravity="center"/>
 </LinearLayout>

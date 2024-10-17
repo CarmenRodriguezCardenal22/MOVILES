@@ -20,7 +20,7 @@ public class MainTexto2 extends AppCompatActivity {
         setContentView(R.layout.activity_main_texto2);
         LinearLayout layout=findViewById(R.id.texto2);
         TextView miTexto=new TextView(this);
-        miTexto.setText("Texto contruido desde Java Tamaño 20dp, Itálic y color Blue");
+        miTexto.setText("Texto contruido desde Java \n Tamaño 20dp, Itálic y color Blue");
         miTexto.setTextColor(Color.BLUE);
         miTexto.setTextSize(20);
         miTexto.setTypeface(null, Typeface.ITALIC);

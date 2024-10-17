@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:text="Texto construido desde el XML Tamaño 20dp, Bold y color Red"
-    android:textColor="Red"
+    android:text="Texto construido desde el XML \n Tamaño 20dp, Bold y color Red"
+    android:textColor="#ff0000"
     android:textSize="20dp"
     android:textStyle="bold"/>
