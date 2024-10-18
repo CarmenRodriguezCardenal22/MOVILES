@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/texto4"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical">
-</LinearLayout>
+    android:text="TEXTO ESCRITO FUENTE UMBRELLA"
+
+    android:textColor="#ff0000"
+    android:textSize="20dp"/>
