@@ -1,6 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,4 +25,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+    public void Boton1(View view) {
+        Intent ejemplo = new Intent(this, BotonSuma.class);
+        startActivity(ejemplo);
+    }
+
+    /*public void Boton2(View view) {
+        Intent ejemplo = new Intent(this, MainBoton2.class);
+        startActivity(ejemplo);
+    }*/
 }

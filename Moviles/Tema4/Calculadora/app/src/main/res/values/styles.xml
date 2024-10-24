@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="CustomButton" parent="Widget.MaterialComponents.Button">
+    <item name="android:background">@drawable/button_background1</item>
+    <!--<item name="android:foreground">@drawable/ic_launcher_foreground</item>-->
+    <item name="backgroundTint">@android:color/holo_orange_light</item>
+</style>
+    <style name="CustomButton2" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/button_background1</item>
+        <item name="backgroundTint">@android:color/holo_orange_dark</item>
+    </style>
+</resources>

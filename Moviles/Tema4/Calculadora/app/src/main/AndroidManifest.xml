@@ -13,6 +13,24 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".Visor"
+            android:exported="false" />
+        <activity
+            android:name=".BotonPotencia"
+            android:exported="false" />
+        <activity
+            android:name=".BotonDividir"
+            android:exported="false" />
+        <activity
+            android:name=".BotonMultiplicar"
+            android:exported="false" />
+        <activity
+            android:name=".BotonResta"
+            android:exported="false" />
+        <activity
+            android:name=".BotonSuma"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
