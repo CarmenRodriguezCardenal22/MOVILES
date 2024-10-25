@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/texto1"
+<TextView android:id="@+id/texto1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:text="BOTON SIN PULSAR"
     android:textColor="#ff0000"
     android:textSize="20dp"
-    android:textStyle="bold">
+    android:textStyle="bold"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <Button
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/boton1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

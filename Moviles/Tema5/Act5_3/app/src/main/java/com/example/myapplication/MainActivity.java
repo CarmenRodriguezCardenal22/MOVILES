@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
-
     public void Boton1(View view) {
         Intent ejemplo = new Intent(this, MainBoton1.class);
         startActivity(ejemplo);

@@ -28,6 +28,5 @@ public class MainBoton1 extends AppCompatActivity {
         TextView miTexto=(TextView) findViewById(R.id.texto1);
         miTexto.append("Texto añadido con Append desde Java");
         miTexto.setTextColor(Color.RED);
-
     }
 }
