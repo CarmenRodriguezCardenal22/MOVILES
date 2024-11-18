@@ -5,21 +5,26 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".MainActivity">
 
     <ListView
         android:id="@+id/lista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="5">
 
     </ListView>
 
     <TextView
         android:id="@+id/texto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:gravity="center"
         android:text="TOCA UNA OPCIÓN">
 
     </TextView>

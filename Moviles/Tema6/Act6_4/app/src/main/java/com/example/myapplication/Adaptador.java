@@ -39,8 +39,9 @@ public abstract class Adaptador extends BaseAdapter {
     @Override
     public View getView(int pos, View view, ViewGroup pariente) {
         if (view == null) {
-            LayoutInflater vi = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R_layout_IdView, null);
+            LayoutInflater vi = (LayoutInflater)
+                    contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = vi.inflate(R_layout_IdView, pariente, false);
         }
         onEntrada(entradas.get(pos), view);
         return view;

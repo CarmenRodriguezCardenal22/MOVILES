@@ -29,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         lista=(ListView) findViewById(R.id.lista);
         texto=(TextView) findViewById(R.id.texto);
         ArrayList<Encapsulador> datos=new ArrayList<Encapsulador>();
@@ -45,24 +40,29 @@ public class MainActivity extends AppCompatActivity {
         datos.add(new Encapsulador(R.drawable.ima6, "JELLY BEAN", "Google anunció Android 4.1 Jelly Bean (Gomita Confitada o Gominola) en la conferencia del 30 de junio de 2012. Basado en el núcleo de linux 3.0.31, Bean fue una actualización incremental con el enfoque primario de mejorar la funcionalidad y el rendimiento de la interfaz de usuario.", false));
         datos.add(new Encapsulador(R.drawable.ima7, "KITKAT", "Su nombre se debe a la chocolatina KitKat, de la empresa internacional Nestlé. Posibilidad de impresión mediante WIFI. WebViews basadas en el motor de Chromium.", false));
         datos.add(new Encapsulador(R.drawable.ima8, "LOLLIPOP", "Incluye Material Design, un diseño intrépido, colorido, y sensible interfaz de usuario para las experiencias coherentes e intuitivos en todos los dispositivos. Movimiento de respuesta natural, iluminación y sombras realistas y familiares elementos visuales hacen que sea más fácil de navegar su dispositivo.", false));
-        lista.setAdapter(new Adaptador(this, R.layout.activity_adaptador, datos){
+        lista.setAdapter(new Adaptador(this, R.layout.activity_main2, datos){
             @Override
             public void onEntrada(Object entrada, View view){
                 TextView texto_superior_entrada = (TextView) view.findViewById(R.id.texto_titulo);
                 TextView texto_inferior_entrada = (TextView) view.findViewById(R.id.texto_datos);
                 ImageView imagen_entrada = (ImageView) view.findViewById(R.id.imagen);
                 RadioButton miRadio = (RadioButton)  view.findViewById(R.id.boton);
+                texto_superior_entrada.setText(((Encapsulador) entrada).getTitulo());
+                texto_inferior_entrada.setText(((Encapsulador) entrada).getContenido());
+                imagen_entrada.setImageResource(((Encapsulador) entrada).getImagen());
+                Encapsulador encapsulador = (Encapsulador) entrada;
                 miRadio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(radio_button_pulsado != null) radio_button_pulsado.setChecked(false);
-                        radio_button_pulsado = (RadioButton) view;
-                        texto.setText("MARCADA UNA OPCIÓN");
+                        radio_button_pulsado=miRadio;
+                        radio_button_pulsado.setChecked(true);
+                        texto.setText(encapsulador.getContenido());
                     }
                 });
             }
         });
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        /*lista.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> pariente, View view, int pos, long id){
                 Encapsulador elegido = (Encapsulador) pariente.getItemAtPosition(pos);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 texto.setText(elegido.getContenido());
             }
 
-        });
+        });*/
     }
 
     public class Encapsulador{
