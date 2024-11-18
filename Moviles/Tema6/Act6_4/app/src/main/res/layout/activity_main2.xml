@@ -9,17 +9,40 @@
     tools:context=".MainActivity2">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:id="@+id/imagen"
+        android:layout_width="110dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher">
     </ImageView>
     <LinearLayout
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/boton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </RadioButton>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/texto_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:text="TEXTO GRANDE">
+        </TextView>
+        <TextView
+            android:id="@+id/texto_datos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="TEXTO CHICO">
+        </TextView>
     </LinearLayout>
 </LinearLayout>
