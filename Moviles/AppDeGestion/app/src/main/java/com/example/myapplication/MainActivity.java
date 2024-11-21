@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         EditText identificacion =(EditText) findViewById(R.id.identificacion);
+        EditText identificacion2 =(EditText) findViewById(R.id.identificacion);
     }
     public void boton(View view){
         Intent ejemplo=new Intent(this, Boton.class);
