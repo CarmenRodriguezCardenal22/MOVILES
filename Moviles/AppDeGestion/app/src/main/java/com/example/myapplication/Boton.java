@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,10 +59,14 @@ public class Boton extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         String mensaje = "";
+        setContentView(R.layout.activity_insertar);
+        Intent intent = getIntent();
+        String nombre = intent.getStringExtra("nombre");
+        String descripcion = intent.getStringExtra("descripcion");
         if (item.getItemId() == R.id.insercion) {
             // Inserción: Agregar un nuevo elemento a la lista
             mensaje = "Elemento insertado";
-            datos.add(new Encapsulador(R.drawable.etiqueta, "NUEVO ITEM", "Nuevas tallas y colores", false));
+            datos.add(new Encapsulador(R.drawable.etiqueta, nombre, descripcion, false));
             ((BaseAdapter) lista.getAdapter()).notifyDataSetChanged(); // Actualizar el adaptador
         } else if (item.getItemId() == R.id.modificacion) {
             // Modificación: Modificar el primer elemento de la lista como ejemplo

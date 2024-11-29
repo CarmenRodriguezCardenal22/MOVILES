@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/insercion" android:title="INSERCIÓN"></item>
+    <item android:id="@+id/insercion" android:title="INSERCIÓN"
+        android:onClick="insertar"></item>
     <item android:id="@+id/modificacion" android:title="MODIFICACIÓN"></item>
 </menu>
