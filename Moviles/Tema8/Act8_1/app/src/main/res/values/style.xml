@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style name="AppTheme.NoBarra">
+    <item name="widowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+</style>
