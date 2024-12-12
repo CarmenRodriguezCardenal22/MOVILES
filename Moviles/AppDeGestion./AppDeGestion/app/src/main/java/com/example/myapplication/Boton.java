@@ -28,7 +28,6 @@ import java.util.Collections;
 public class Boton extends AppCompatActivity {
     private ListView lista;
     private ArrayList<Encapsulador> datos = new ArrayList<>();
-    private ArrayList<Encapsulador> listaDeseos = new ArrayList<>();
     private BaseAdapter adaptador;
 
     @Override
