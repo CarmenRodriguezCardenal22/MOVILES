@@ -9,26 +9,24 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 
 public abstract class Adaptador extends BaseAdapter {
-
     private ArrayList<?> entradas;
-    private int R_layout_IdView;
+    private int layoutId;
     private Context contexto;
 
-    public Adaptador(Context contexto, int R_layout_IdView, ArrayList<?> entradas) {
-        super();
+    public Adaptador(Context contexto, int layoutId, ArrayList<?> entradas) {
         this.contexto = contexto;
         this.entradas = entradas;
-        this.R_layout_IdView = R_layout_IdView;
+        this.layoutId = layoutId;
     }
 
     @Override
-    public View getView(int posicion, View view, ViewGroup pariente) {
-        if (view == null) {
-            LayoutInflater vi = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R_layout_IdView, null);
+    public View getView(int posicion, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(contexto);
+            convertView = inflater.inflate(layoutId, parent, false);
         }
-        onEntrada (entradas.get(posicion), view);
-        return view;
+        onEntrada(entradas.get(posicion), convertView);
+        return convertView;
     }
 
     @Override
@@ -46,6 +44,5 @@ public abstract class Adaptador extends BaseAdapter {
         return posicion;
     }
 
-    public abstract void onEntrada (Object entrada, View view);
-
+    public abstract void onEntrada(Object entrada, View view);
 }

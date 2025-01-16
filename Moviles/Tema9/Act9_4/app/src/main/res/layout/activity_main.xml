@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment android:id="@+id/fragment_listado"
+<fragment
+    android:id="@+id/fragment_listado"
     android:name="com.example.myapplication.Fragmento1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="0dp"
-    android:layout_marginRight="0dp"
     android:background="#9fb3cf"
-    xmlns:android="http://schemas.android.com/apk/res/android"></fragment>
+    xmlns:android="http://schemas.android.com/apk/res/android" />
