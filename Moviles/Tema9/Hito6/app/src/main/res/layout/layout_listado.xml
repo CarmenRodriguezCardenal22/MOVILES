@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:background="#E77A71"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imagenLista"
+        android:layout_width="110dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:contentDescription="Descripcion"
+        tools:src="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/textoTitulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#293444"
+        tools:text="Título del artículo" />
+</LinearLayout>
