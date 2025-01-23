@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity implements Fragmento1.Callbacks {
+    private boolean dosFragmentos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements Fragmento1.Callba
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_listado, fragmento1)
                 .commit();
+        if(findViewById(R.id.frame_contenedor)!= null){
+            dosFragmentos=true;
+        }
     }
 
     @Override
@@ -40,4 +44,5 @@ public class MainActivity extends AppCompatActivity implements Fragmento1.Callba
         detalleIntent.putExtra(Fragmento3.ARG_ID_ENTRADA_SELECCIONADA, id);
         startActivity(detalleIntent);
     }
+
 }
