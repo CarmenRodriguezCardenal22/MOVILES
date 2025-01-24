@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imagenLista"
         android:layout_width="110dp"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:scaleType="fitXY"
         android:contentDescription="Descripcion"
         tools:src="@android:drawable/ic_menu_gallery" />

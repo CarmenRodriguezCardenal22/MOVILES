@@ -39,10 +39,20 @@ public class MainActivity extends AppCompatActivity implements Fragmento1.Callba
 
     @Override
     public void onEntradaSeleccionada(String id) {
-        // Iniciar la actividad para mostrar detalles
-        Intent detalleIntent = new Intent(this, Fragmento2.class);
-        detalleIntent.putExtra(Fragmento3.ARG_ID_ENTRADA_SELECCIONADA, id);
-        startActivity(detalleIntent);
+        if(dosFragmentos){
+           Bundle arguments =new Bundle();
+           arguments.putString(Fragmento3.ARG_ID_ENTRADA_SELECCIONADA, id);
+           Fragmento3 fragment = new Fragmento3();
+           fragment.setArguments(arguments);
+           getSupportFragmentManager().beginTransaction().replace(R.id.frame_contenedor, fragment).
+                   commit();
+        }
+        else{
+            // Iniciar la actividad para mostrar detalles
+            Intent detalleIntent = new Intent(this, Fragmento2.class);
+            detalleIntent.putExtra(Fragmento3.ARG_ID_ENTRADA_SELECCIONADA, id);
+            startActivity(detalleIntent);
+        }
     }
 
 }
