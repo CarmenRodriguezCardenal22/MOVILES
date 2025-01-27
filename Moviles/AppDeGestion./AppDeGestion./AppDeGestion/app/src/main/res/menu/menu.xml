@@ -12,4 +12,8 @@
         android:id="@+id/ordenar_favorito"
         android:title="Ordenar por Favoritos"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/mostrar_info"
+        android:title="Info App"
+        app:showAsAction="never" />
 </menu>

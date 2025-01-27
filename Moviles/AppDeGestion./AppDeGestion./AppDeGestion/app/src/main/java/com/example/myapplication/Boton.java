@@ -21,6 +21,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -63,8 +66,8 @@ public class Boton extends AppCompatActivity {
         lista.setAdapter(adaptador);
 
         // Aplicar animación al ListView
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.animacion_ropa);
-        lista.startAnimation(anim);
+        /*Animation anim = AnimationUtils.loadAnimation(this, R.anim.animacion_ropa);
+        lista.startAnimation(anim);*/
 
         // Registrar menú contextual para el ListView
         registerForContextMenu(lista);
@@ -91,7 +94,11 @@ public class Boton extends AppCompatActivity {
         } else if(itemId == R.id.insertar) {
             mostrarDialogoInsertar();
             return true;
-        } else {
+        } else if(itemId == R.id.mostrar_info){
+            mostrarInfo();
+            return true;
+        }
+        else {
             return super.onOptionsItemSelected(item);
         }
     }
@@ -197,6 +204,43 @@ public class Boton extends AppCompatActivity {
                 .create()
                 .show();
     }
+    private void mostrarInfo() {
+        // Inflar la vista personalizada del diálogo
+        View dialogView = getLayoutInflater().inflate(R.layout.activity_info, null);
+        TextView texto = dialogView.findViewById(R.id.texto); // TextView en el diseño del diálogo
+
+        try (InputStream fichraw = getResources().openRawResource(R.raw.info);
+             BufferedReader miFichero = new BufferedReader(new InputStreamReader(fichraw))) {
+
+            // Leer el contenido del archivo
+            StringBuilder contenido = new StringBuilder();
+            String linea;
+            while ((linea = miFichero.readLine()) != null) {
+                contenido.append(linea).append("\n");
+            }
+
+            // Configurar el texto leído en el TextView
+            texto.setText(contenido.toString());
+
+        } catch (Exception e) {
+            // Manejar errores e informar al usuario
+            e.printStackTrace();
+            Toast.makeText(this, "Error al leer el archivo: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        // Crear y mostrar el diálogo
+        new AlertDialog.Builder(this)
+                .setTitle("Info App")
+                .setView(dialogView)
+                .setPositiveButton("Guardar", (dialog, which) -> {
+                    Toast.makeText(this, "Información guardada.", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancelar", null)
+                .create()
+                .show();
+    }
+
+
 
     // Obtener la fecha actual
     private String obtenerFechaActual() {
