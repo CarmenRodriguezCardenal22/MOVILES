@@ -2,7 +2,9 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,11 +22,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Usuario> datos = new ArrayList<>();
     private ImageView imagen;
+    private EditText identificacion, contrasena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        identificacion = findViewById(R.id.identificacion);
+        contrasena = findViewById(R.id.identificacion2);
 
         // Configuración de insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -33,33 +38,27 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Inicialización de usuarios
-        datos.add(new Usuario("Carmen", "carmen"));
-        datos.add(new Usuario("Sofia", "sofia"));
-        datos.add(new Usuario("Sergio", "sergio"));
-        datos.add(new Usuario("Jose Antonio", "joseAntonio"));
-        datos.add(new Usuario("Javier", "javier"));
-
         // Inicialización de ImageView y animación
         imagen = findViewById(R.id.imageView);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.animacion_portada);
         imagen.startAnimation(anim);
+
+        SharedPreferences prefe=getSharedPreferences("datos",Context.MODE_PRIVATE);
+        identificacion.setText(prefe.getString("identificacion",""));
     }
 
     public void boton(View view) {
-        EditText identificacion = findViewById(R.id.identificacion); // Campo usuario
-        EditText contrasena = findViewById(R.id.identificacion2);         // Campo contraseña
+        String usuarioIngresado = identificacion.getText().toString();
+        String contrasenaIngresada = contrasena.getText().toString();
 
-        String usuarioIngresado = identificacion.getText().toString().trim();
-        String contrasenaIngresada = contrasena.getText().toString().trim();
-
-        boolean encontrado = false;
+        boolean encontrado = dbHelper.validarUsuario(usuarioIngresado, contrasenaIngresada);
+        SharedPreferences prefe=getSharedPreferences("datos",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefe.edit();
 
         // Validación de usuario y contraseña
         for (Usuario usuario : datos) {
             if (usuario.getUsuario().equals(usuarioIngresado) && usuario.getContraseña().equals(contrasenaIngresada)) {
                 encontrado = true;
-                break;
             }
         }
 
@@ -71,6 +70,26 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
         }
     }
+    BaseDeDatos dbHelper = new BaseDeDatos(this);
+
+    public void registrarUsuario(String usuario, String contrasena) {
+        long resultado = dbHelper.insertarUsuario(usuario, contrasena);
+        if (resultado != -1) {
+            Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void validarUsuario(String usuario, String contrasena) {
+        boolean valido = dbHelper.validarUsuario(usuario, contrasena);
+        if (valido) {
+            Intent intent = new Intent(this, Boton.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     // Clase Usuario
     public static class Usuario {

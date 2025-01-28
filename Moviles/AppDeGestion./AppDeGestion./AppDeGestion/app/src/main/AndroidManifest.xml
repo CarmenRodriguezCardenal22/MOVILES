@@ -13,9 +13,6 @@
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".ListaDeseos"
-            android:exported="false" />
-        <activity
             android:name=".Boton"
             android:exported="false" />
         <activity
@@ -28,5 +25,7 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>
