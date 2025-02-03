@@ -1,9 +1,8 @@
 package com.example.myapplication;
 
-import android.graphics.Point;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Display;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,12 +22,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Display pantalla = getWindowManager().getDefaultDisplay();
-        Point medida = new Point();
-        pantalla.getSize(medida);
-        int ancho = medida.x;
-        int alto = medida.y;
-        TextView texto=findViewById(R.id.texto);
-        texto.setText(ancho + " x " + alto);
+    }
+    public void figura1(View view) {
+        Intent f1 = new Intent(this, Figura1.class);
+        startActivity(f1);
+    }
+    public void figura2(View view) {
+        Intent f2 = new Intent(this, Figura2.class);
+        startActivity(f2);
     }
 }
