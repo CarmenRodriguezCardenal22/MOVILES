@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Usuario> datos = new ArrayList<>();
     private ImageView imagen;
     private EditText identificacion, contrasena;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        //dbHelper.insertarUsuario("eva", "eva");
         // Inicialización de ImageView y animación
         imagen = findViewById(R.id.imageView);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.animacion_portada);
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefe=getSharedPreferences("datos",Context.MODE_PRIVATE);
         identificacion.setText(prefe.getString("identificacion",""));
+        // Reproducir audio en bucle
+        mediaPlayer = MediaPlayer.create(this, R.raw.audio);
+        mediaPlayer.setLooping(true); // Para que el audio se repita en bucle
+        mediaPlayer.start();
     }
 
     public void boton(View view) {
@@ -89,7 +95,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
         }
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
 
     // Clase Usuario
     public static class Usuario {
