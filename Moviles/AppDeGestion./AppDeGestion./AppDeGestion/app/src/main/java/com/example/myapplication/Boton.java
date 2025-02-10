@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,6 +36,8 @@ public class Boton extends AppCompatActivity {
     private ListView lista;
     private ArrayList<Encapsulador> datos = new ArrayList<>();
     private BaseAdapter adaptador;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri imagenUriSeleccionada = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +47,10 @@ public class Boton extends AppCompatActivity {
         lista = findViewById(R.id.lista);
 
         // Datos iniciales
-        datos.add(new Encapsulador(R.drawable.camiseta, "CAMISETA", "Tallas: XS, S, M, L, XL\nColores: Negro, Blanco, Rojo, Beige", obtenerFechaActual(), 5));
-        datos.add(new Encapsulador(R.drawable.pantalon, "PANTALÓN", "Tallas: 36, 38, 40, 42, 44, 46, 48\nColores: Azul, Gris, Negro, Blanco", obtenerFechaActual(), 3));
-        datos.add(new Encapsulador(R.drawable.botas, "BOTAS", "Tallas: 36, 37, 38, 39, 40, 41, 42\nColores: Negro, Blanco, Marrón", obtenerFechaActual(), 1));
-        datos.add(new Encapsulador(R.drawable.chaqueta, "CHAQUETA", "Tallas: XS, S, M, L, XL\nColores: Negro, Blanco, Rojo", obtenerFechaActual(), 4));
+        datos.add(new Encapsulador("a","CAMISETA", "Tallas: XS, S, M, L, XL\nColores: Negro, Blanco, Rojo, Beige", obtenerFechaActual(), 5));
+        datos.add(new Encapsulador("a","PANTALÓN", "Tallas: 36, 38, 40, 42, 44, 46, 48\nColores: Azul, Gris, Negro, Blanco", obtenerFechaActual(), 3));
+        datos.add(new Encapsulador("a","BOTAS", "Tallas: 36, 37, 38, 39, 40, 41, 42\nColores: Negro, Blanco, Marrón", obtenerFechaActual(), 1));
+        datos.add(new Encapsulador("a","CHAQUETA", "Tallas: XS, S, M, L, XL\nColores: Negro, Blanco, Rojo", obtenerFechaActual(), 4));
 
         // Configuración del adaptador
         adaptador = new Adaptador(this, R.layout.activity_boton2, datos) {
@@ -58,9 +64,14 @@ public class Boton extends AppCompatActivity {
                 Encapsulador item = (Encapsulador) entrada;
                 textoTitulo.setText(item.getTitulo());
                 textoDatos.setText(item.getContenido() + "\nFecha: " + item.getFecha());
-                imagen.setImageResource(item.getImagen());
-                ratingBar.setRating(item.isFavorito()); // Establecer el valor del RatingBar
-                ratingBar.setIsIndicator(true); // Indicador activado
+                ratingBar.setRating(item.isFavorito());
+                ratingBar.setIsIndicator(true);
+
+                if (item.getImagenUri() != null && !item.getImagenUri().isEmpty()) {
+                    imagen.setImageURI(Uri.parse(item.getImagenUri()));
+                } else {
+                    imagen.setImageResource(R.drawable.etiqueta);
+                }
             }
         };
         lista.setAdapter(adaptador);
@@ -142,13 +153,30 @@ public class Boton extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            imagenUriSeleccionada = data.getData();
+        }
+    }
+
+    private void abrirGaleria() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
     // Mostrar diálogo personalizado para insertar
     private void mostrarDialogoInsertar() {
         View dialogView = getLayoutInflater().inflate(R.layout.activity_insertar, null);
         EditText nombre = dialogView.findViewById(R.id.editNombre);
         EditText descripcion = dialogView.findViewById(R.id.editDescripcion);
         RatingBar estrellas = dialogView.findViewById(R.id.ratingBar);
-        DatePicker fecha = dialogView.findViewById((R.id.datePicker));
+        DatePicker fecha = dialogView.findViewById(R.id.datePicker);
+        ImageView imagenSeleccionada = dialogView.findViewById(R.id.imagenSeleccionada);
+        Button btnSeleccionarImagen = dialogView.findViewById(R.id.btnSeleccionarImagen);
+
+        btnSeleccionarImagen.setOnClickListener(v -> abrirGaleria());
 
         new AlertDialog.Builder(this)
                 .setTitle("Insertar Elemento")
@@ -157,21 +185,24 @@ public class Boton extends AppCompatActivity {
                     String titulo = nombre.getText().toString();
                     String contenido = descripcion.getText().toString();
                     int year = fecha.getYear();
-                    int month = fecha.getMonth() + 1; // Los meses comienzan desde 0
+                    int month = fecha.getMonth() + 1;
                     int day = fecha.getDayOfMonth();
-
-                    // Formatear la fecha en formato "dd/MM/yyyy"
                     String fechaFinal = day + "/" + month + "/" + year;
-                    Integer ratingBar = (int) estrellas.getRating(); // Obtener rating del RatingBar
+                    Integer rating = (int) estrellas.getRating();
 
-                    datos.add(new Encapsulador(R.drawable.etiqueta, titulo, contenido, fechaFinal, ratingBar));
-                    adaptador.notifyDataSetChanged();
-                    Toast.makeText(this, "Elemento insertado", Toast.LENGTH_SHORT).show();
+                    if (imagenUriSeleccionada != null) {
+                        datos.add(new Encapsulador(imagenUriSeleccionada.toString(), titulo, contenido, fechaFinal, rating));
+                        adaptador.notifyDataSetChanged();
+                        Toast.makeText(this, "Elemento insertado", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+                    }
                 })
                 .setNegativeButton("Cancelar", null)
                 .create()
                 .show();
     }
+
 
     // Mostrar diálogo personalizado para modificar
     private void mostrarDialogoModificar(int position) {
@@ -253,35 +284,27 @@ public class Boton extends AppCompatActivity {
 
     // Clase POJO Encapsulador
     public static class Encapsulador {
-        private int imagen;
+        private String imagenUri;
         private String titulo, contenido, fecha;
         private Integer favorito;
 
-        public Encapsulador(int imagen, String titulo, String contenido, String fecha, Integer favorito) {
-            this.imagen = imagen;
+        public Encapsulador(String imagenUri, String titulo, String contenido, String fecha, Integer favorito) {
+            this.imagenUri = imagenUri;
             this.titulo = titulo;
             this.contenido = contenido;
             this.fecha = fecha;
             this.favorito = favorito;
         }
 
-        public int getImagen() { return imagen; }
-
+        public String getImagenUri() { return imagenUri; }
         public String getTitulo() { return titulo; }
-
         public String getContenido() { return contenido; }
-
         public String getFecha() { return fecha; }
-
         public Integer isFavorito() { return favorito; }
 
         public void setTitulo(String titulo) { this.titulo = titulo; }
-
         public void setContenido(String contenido) { this.contenido = contenido; }
-
-        public void setFavorito(Integer favorito) {
-            this.favorito = favorito;
-        }
+        public void setFavorito(Integer favorito) { this.favorito = favorito; }
     }
 }
 
