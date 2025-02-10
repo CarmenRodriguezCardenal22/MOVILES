@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imagen;
     private EditText identificacion, contrasena;
     private MediaPlayer mediaPlayer;
+    private BaseDeDatos dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +33,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         identificacion = findViewById(R.id.identificacion);
         contrasena = findViewById(R.id.identificacion2);
+        dbHelper = new BaseDeDatos(this);
 
-        // Configuración de insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //dbHelper.insertarUsuario("eva", "eva");
-        // Inicialización de ImageView y animación
+
+        dbHelper.insertarUsuario("Carmen", "carmen");
+
         imagen = findViewById(R.id.imageView);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.animacion_portada);
         imagen.startAnimation(anim);
 
-        SharedPreferences prefe=getSharedPreferences("datos",Context.MODE_PRIVATE);
-        identificacion.setText(prefe.getString("identificacion",""));
-        // Reproducir audio en bucle
+        SharedPreferences prefe = getSharedPreferences("datos", Context.MODE_PRIVATE);
+        identificacion.setText(prefe.getString("identificacion", ""));
+
         mediaPlayer = MediaPlayer.create(this, R.raw.audio);
-        mediaPlayer.setLooping(true); // Para que el audio se repita en bucle
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
     }
 
@@ -58,54 +60,37 @@ public class MainActivity extends AppCompatActivity {
         String contrasenaIngresada = contrasena.getText().toString();
 
         boolean encontrado = dbHelper.validarUsuario(usuarioIngresado, contrasenaIngresada);
-        SharedPreferences prefe=getSharedPreferences("datos",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefe.edit();
 
-        // Validación de usuario y contraseña
         for (Usuario usuario : datos) {
             if (usuario.getUsuario().equals(usuarioIngresado) && usuario.getContraseña().equals(contrasenaIngresada)) {
                 encontrado = true;
+                break;
             }
         }
 
-        // Acciones según resultado
         if (encontrado) {
+            detenerMusica();
             Intent ejemplo = new Intent(this, Boton.class);
             startActivity(ejemplo);
         } else {
             Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
         }
     }
-    BaseDeDatos dbHelper = new BaseDeDatos(this);
 
-    public void registrarUsuario(String usuario, String contrasena) {
-        long resultado = dbHelper.insertarUsuario(usuario, contrasena);
-        if (resultado != -1) {
-            Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
-        }
-    }
-    public void validarUsuario(String usuario, String contrasena) {
-        boolean valido = dbHelper.validarUsuario(usuario, contrasena);
-        if (valido) {
-            Intent intent = new Intent(this, Boton.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
-        }
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayer != null) {
+    private void detenerMusica() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
         }
     }
 
-    // Clase Usuario
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detenerMusica();
+    }
+
     public static class Usuario {
         private String usuario;
         private String contraseña;

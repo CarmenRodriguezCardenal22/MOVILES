@@ -47,11 +47,11 @@ public class Boton extends AppCompatActivity {
         lista = findViewById(R.id.lista);
 
         // Datos iniciales
-        datos.add(new Encapsulador("a","CAMISETA", "Tallas: XS, S, M, L, XL\nColores: Negro, Blanco, Rojo, Beige", obtenerFechaActual(), 5));
+        /*datos.add(new Encapsulador("R.drawable.camiseta","CAMISETA", "Tallas: XS, S, M, L, XL\nColores: Negro, Blanco, Rojo, Beige", obtenerFechaActual(), 5));
         datos.add(new Encapsulador("a","PANTALÓN", "Tallas: 36, 38, 40, 42, 44, 46, 48\nColores: Azul, Gris, Negro, Blanco", obtenerFechaActual(), 3));
         datos.add(new Encapsulador("a","BOTAS", "Tallas: 36, 37, 38, 39, 40, 41, 42\nColores: Negro, Blanco, Marrón", obtenerFechaActual(), 1));
         datos.add(new Encapsulador("a","CHAQUETA", "Tallas: XS, S, M, L, XL\nColores: Negro, Blanco, Rojo", obtenerFechaActual(), 4));
-
+*/
         // Configuración del adaptador
         adaptador = new Adaptador(this, R.layout.activity_boton2, datos) {
             @Override
