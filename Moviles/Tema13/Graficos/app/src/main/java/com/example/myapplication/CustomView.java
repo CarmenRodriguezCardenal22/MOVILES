@@ -15,11 +15,15 @@ public class CustomView extends View {
         paint = new Paint();
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.FILL);
+        paint.setTextSize(100);
     }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawCircle(x, y, 50, paint);
+
+        canvas.drawText("X= " + x, 200, 300, paint);
+        canvas.drawText("Y= " + y, 200, 420, paint);
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
