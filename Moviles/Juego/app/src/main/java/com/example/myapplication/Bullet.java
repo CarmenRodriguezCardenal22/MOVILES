@@ -10,10 +10,11 @@ public class Bullet {
     private Bitmap bitmap;
     private int x, y;
 
-    public Bullet(Context context, int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Bullet(Context context, int x, int y, int screenWidth) {
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bullet);
+        bitmap = Bitmap.createScaledBitmap(bitmap, screenWidth / 30, screenWidth / 15, false);
+        this.x = x - bitmap.getWidth() / 2;
+        this.y = y;
     }
 
     public void update() { y -= 20; }

@@ -9,10 +9,11 @@ public class Player {
     private Bitmap bitmap;
     private int x, y;
 
-    public Player(Context context, int x, int y) {
-        this.x = x;
-        this.y = y;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
+    public Player(Context context, int screenWidth, int screenHeight, int playerSprite) {
+        bitmap = BitmapFactory.decodeResource(context.getResources(), playerSprite);
+        bitmap = Bitmap.createScaledBitmap(bitmap, screenWidth / 7, screenHeight / 10, false);
+        x = screenWidth / 2 - bitmap.getWidth() / 2;
+        y = screenHeight - bitmap.getHeight() - 50;
     }
 
     public void update() {}

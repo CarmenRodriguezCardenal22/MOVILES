@@ -10,10 +10,11 @@ public class Enemy {
     private Bitmap bitmap;
     private int x, y;
 
-    public Enemy(Context context, int x, int y) {
+    public Enemy(Context context, int x, int y, int screenWidth) {
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy);
+        bitmap = Bitmap.createScaledBitmap(bitmap, screenWidth / 9, screenWidth / 9, false);
         this.x = x;
         this.y = y;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy);
     }
 
     public void update(int level) { y += 5 + level; }

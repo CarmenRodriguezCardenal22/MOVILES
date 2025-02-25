@@ -6,13 +6,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.media.SoundPool;
 import android.os.Build;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
@@ -31,17 +34,27 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     private Paint textPaint;
     private SoundPool soundPool;
     private int shootSound, explosionSound;
-    private long lastEnemySpawnTime = 0;
+    private long lastEnemySpawnTime = 0, lastShotTime = 0;
+    private int screenWidth, screenHeight;
 
-    public GameView(Context context) {
+    public GameView(Context context, int playerSprite) {
         super(context);
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
         setFocusable(true);
-        player = new Player(context, 100, 600);
+
+        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+        screenHeight = size.y;
+
+        bg = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg),
+                screenWidth, screenHeight, false);
+
+        player = new Player(context, screenWidth, screenHeight, playerSprite);
         bullets = new ArrayList<>();
         enemies = new ArrayList<>();
-        bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
 
         soundPool = new SoundPool.Builder().setMaxStreams(5).build();
         shootSound = soundPool.load(context, R.raw.shoot, 1);
@@ -57,15 +70,19 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             player.setX((int) event.getX() - player.getWidth() / 2);
-        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            bullets.add(new Bullet(getContext(), player.getX() + player.getWidth() / 2, player.getY()));
-            soundPool.play(shootSound, 1, 1, 0, 0, 1);
         }
         return true;
     }
 
     public void update() {
         player.update();
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastShotTime > 500) { // Disparo automático cada 500ms
+            bullets.add(new Bullet(getContext(), player.getX() + player.getWidth() / 2, player.getY(), screenWidth));
+            soundPool.play(shootSound, 1, 1, 0, 0, 1);
+            lastShotTime = currentTime;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             bullets.removeIf(b -> {
                 b.update();
@@ -77,7 +94,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         while (enemyIter.hasNext()) {
             Enemy enemy = enemyIter.next();
             enemy.update(level);
-            if (enemy.getY() > getHeight()) {
+            if (enemy.getY() > screenHeight) {
                 enemyIter.remove();
                 lives--;
                 if (lives <= 0) thread.setRunning(false);
@@ -102,8 +119,8 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void spawnEnemy() {
-        int xPos = new Random().nextInt(getWidth() - 100);
-        enemies.add(new Enemy(getContext(), xPos, 0));
+        int xPos = new Random().nextInt(screenWidth - (screenWidth / 10));
+        enemies.add(new Enemy(getContext(), xPos, 0, screenWidth));
     }
 
     @Override
@@ -125,9 +142,11 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-
+    public void surfaceCreated(SurfaceHolder holder) {
+        thread.setRunning(true);
+        thread.start();
     }
+
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
