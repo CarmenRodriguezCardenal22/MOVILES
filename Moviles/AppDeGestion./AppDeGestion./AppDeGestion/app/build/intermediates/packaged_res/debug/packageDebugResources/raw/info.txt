@@ -1,0 +1,3 @@
+Esta es una aplicación para la gestión de tu tienda de ropa.
+En ella puedes añadir tanto imágenes, como sus tallas y colores, además de la descripción que desees sobre el producto.
+Es fácil de usar y solo necesitas un ususario y contraseña para acceder a su contenido.

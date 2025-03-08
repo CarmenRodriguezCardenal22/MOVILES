@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -77,12 +79,16 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     public void update() {
         player.update();
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastShotTime > 500) { // Disparo automático cada 500ms
+
+        // Tiempo de espera entre disparos: 500ms menos 50ms por cada nivel
+        long shotDelay = Math.max(100, 500 - level * 50); // Evita que el tiempo de disparo sea negativo
+        if (currentTime - lastShotTime > shotDelay) {
             bullets.add(new Bullet(getContext(), player.getX() + player.getWidth() / 2, player.getY(), screenWidth));
             soundPool.play(shootSound, 1, 1, 0, 0, 1);
             lastShotTime = currentTime;
         }
 
+        // Actualización y eliminación de balas fuera de la pantalla
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             bullets.removeIf(b -> {
                 b.update();
@@ -90,6 +96,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             });
         }
 
+        // Actualización de los enemigos
         Iterator<Enemy> enemyIter = enemies.iterator();
         while (enemyIter.hasNext()) {
             Enemy enemy = enemyIter.next();
@@ -97,7 +104,14 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             if (enemy.getY() > screenHeight) {
                 enemyIter.remove();
                 lives--;
-                if (lives <= 0) thread.setRunning(false);
+                if (lives <= 0) {
+                    Intent intent = new Intent(getContext(), GameOverActivity.class);
+                    intent.putExtra("score", score);
+                    intent.putExtra("level", level);
+                    getContext().startActivity(intent);
+                    ((Activity) getContext()).finish(); // Cierra la actividad actual para evitar volver a ella
+                    thread.setRunning(false); // Detiene el hilo del juego
+                }
             }
             for (Iterator<Bullet> bulletIter = bullets.iterator(); bulletIter.hasNext();) {
                 Bullet bullet = bulletIter.next();
@@ -112,6 +126,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
+        // Generación de enemigos
         if (System.currentTimeMillis() - lastEnemySpawnTime > 1000 / level) {
             spawnEnemy();
             lastEnemySpawnTime = System.currentTimeMillis();
